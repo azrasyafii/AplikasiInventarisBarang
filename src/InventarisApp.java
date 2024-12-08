@@ -48,8 +48,8 @@ public class InventarisApp extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableInventaris = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnImport = new javax.swing.JButton();
+        btnExport = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -129,19 +129,19 @@ public class InventarisApp extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jScrollPane1);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jButton1.setText("IMPORT");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnImport.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnImport.setText("IMPORT");
+        btnImport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnImportActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jButton2.setText("EXPORT");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnExport.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnExport.setText("EXPORT");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnExportActionPerformed(evt);
             }
         });
 
@@ -189,9 +189,9 @@ public class InventarisApp extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnImport)
                         .addGap(50, 50, 50)
-                        .addComponent(jButton2)
+                        .addComponent(btnExport)
                         .addGap(42, 42, 42))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -223,8 +223,8 @@ public class InventarisApp extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnImport)
+                    .addComponent(btnExport))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -295,7 +295,7 @@ public class InventarisApp extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_btnHapusActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
        try (FileWriter writer = new FileWriter("data_inventaris.txt")) {
         DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
         for (int i = 0; i < model.getRowCount(); i++) {
@@ -308,9 +308,9 @@ public class InventarisApp extends javax.swing.JFrame {
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Gagal mengekspor data: " + ex.getMessage());
     }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnExportActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
         try (BufferedReader reader = new BufferedReader(new FileReader("data_inventaris.txt"))) {
         DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
         String line;
@@ -322,7 +322,7 @@ public class InventarisApp extends javax.swing.JFrame {
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Gagal mengimpor data: " + ex.getMessage());
     }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnImportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,12 +360,12 @@ public class InventarisApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnImport;
     private javax.swing.JButton btnKeluar;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUbah;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
