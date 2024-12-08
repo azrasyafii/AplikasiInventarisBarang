@@ -1,13 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author Pongo
- */
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
+
+
 public class InventarisApp extends javax.swing.JFrame {
 
     /**
@@ -37,16 +37,19 @@ public class InventarisApp extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txtIdBarang = new javax.swing.JTextField();
+        txtNamaBarang = new javax.swing.JTextField();
+        txtJumlah = new javax.swing.JTextField();
+        txtHarga = new javax.swing.JTextField();
+        btnTambah = new javax.swing.JButton();
+        btnUbah = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        btnKeluar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableInventaris = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
 
         jLabel1.setText("jLabel1");
 
@@ -78,20 +81,40 @@ public class InventarisApp extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("HARGA");
 
-        jButton1.setBackground(new java.awt.Color(0, 255, 255));
-        jButton1.setText("TAMBAH");
+        btnTambah.setBackground(new java.awt.Color(0, 255, 255));
+        btnTambah.setText("TAMBAH");
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(51, 255, 255));
-        jButton2.setText("UBAH");
+        btnUbah.setBackground(new java.awt.Color(51, 255, 255));
+        btnUbah.setText("UBAH");
+        btnUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(0, 255, 255));
-        jButton3.setText("HAPUS");
+        btnHapus.setBackground(new java.awt.Color(0, 255, 255));
+        btnHapus.setText("HAPUS");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
-        jButton5.setBackground(new java.awt.Color(255, 51, 51));
-        jButton5.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jButton5.setText("KELUAR");
+        btnKeluar.setBackground(new java.awt.Color(255, 51, 51));
+        btnKeluar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnKeluar.setText("KELUAR");
+        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKeluarActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableInventaris.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -99,10 +122,28 @@ public class InventarisApp extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID BARANG", "NAMA BARANG", "JUMLAH", "HARGA"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableInventaris);
+
+        jScrollPane2.setViewportView(jScrollPane1);
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jButton1.setText("IMPORT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jButton2.setText("EXPORT");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -123,28 +164,35 @@ public class InventarisApp extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addGap(17, 17, 17)
-                                    .addComponent(jButton1))
+                                    .addComponent(btnTambah))
                                 .addComponent(jLabel5))
                             .addGap(39, 39, 39))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnHapus)
                         .addGap(53, 53, 53)
-                        .addComponent(jButton5)
+                        .addComponent(btnKeluar)
                         .addGap(43, 43, 43))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(txtIdBarang, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                            .addComponent(txtJumlah, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtHarga, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNamaBarang, javax.swing.GroupLayout.Alignment.LEADING))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton2)
+                        .addGap(42, 42, 42))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,28 +200,32 @@ public class InventarisApp extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3)
-                    .addComponent(jButton5)
-                    .addComponent(jButton2))
+                    .addComponent(btnTambah)
+                    .addComponent(btnHapus)
+                    .addComponent(btnKeluar)
+                    .addComponent(btnUbah))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -201,6 +253,76 @@ public class InventarisApp extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnKeluarActionPerformed
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
+    model.addRow(new Object[]{
+        txtIdBarang.getText(),
+        txtNamaBarang.getText(),
+        txtJumlah.getText(),
+        txtHarga.getText()
+    });
+    txtIdBarang.setText("");
+    txtNamaBarang.setText("");
+    txtJumlah.setText("");
+    txtHarga.setText("");
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+         int selectedRow = tableInventaris.getSelectedRow();
+    if (selectedRow >= 0) {
+        DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
+        model.setValueAt(txtIdBarang.getText(), selectedRow, 0);
+        model.setValueAt(txtNamaBarang.getText(), selectedRow, 1);
+        model.setValueAt(txtJumlah.getText(), selectedRow, 2);
+        model.setValueAt(txtHarga.getText(), selectedRow, 3);
+    } else {
+        JOptionPane.showMessageDialog(this, "Pilih baris yang ingin diubah.");
+    }
+    }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        int selectedRow = tableInventaris.getSelectedRow();
+    if (selectedRow >= 0) {
+        DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
+        model.removeRow(selectedRow);
+    } else {
+        JOptionPane.showMessageDialog(this, "Pilih baris yang ingin dihapus.");
+    }
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       try (FileWriter writer = new FileWriter("data_inventaris.txt")) {
+        DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            writer.write(model.getValueAt(i, 0) + "," +
+                         model.getValueAt(i, 1) + "," +
+                         model.getValueAt(i, 2) + "," +
+                         model.getValueAt(i, 3) + "\n");
+        }
+        JOptionPane.showMessageDialog(this, "Data berhasil diekspor.");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Gagal mengekspor data: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try (BufferedReader reader = new BufferedReader(new FileReader("data_inventaris.txt"))) {
+        DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] data = line.split(",");
+            model.addRow(data);
+        }
+        JOptionPane.showMessageDialog(this, "Data berhasil diimpor.");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Gagal mengimpor data: " + ex.getMessage());
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,11 +360,13 @@ public class InventarisApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnKeluar;
+    private javax.swing.JButton btnTambah;
+    private javax.swing.JButton btnUbah;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -253,11 +377,12 @@ public class InventarisApp extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTable tableInventaris;
+    private javax.swing.JTextField txtHarga;
+    private javax.swing.JTextField txtIdBarang;
+    private javax.swing.JTextField txtJumlah;
+    private javax.swing.JTextField txtNamaBarang;
     // End of variables declaration//GEN-END:variables
 }
