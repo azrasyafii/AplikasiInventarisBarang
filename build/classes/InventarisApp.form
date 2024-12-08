@@ -308,8 +308,8 @@
                       <Table columnCount="4" rowCount="4">
                         <Column editable="true" title="ID BARANG" type="java.lang.Object"/>
                         <Column editable="true" title="NAMA BARANG" type="java.lang.Object"/>
-                        <Column editable="true" title="JUMLAH" type="java.lang.Object"/>
-                        <Column editable="true" title="HARGA" type="java.lang.Object"/>
+                        <Column editable="true" title="STOK BARANG" type="java.lang.Object"/>
+                        <Column editable="true" title="KONDISI" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

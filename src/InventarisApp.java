@@ -122,7 +122,7 @@ public class InventarisApp extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID BARANG", "NAMA BARANG", "JUMLAH", "HARGA"
+                "ID BARANG", "NAMA BARANG", "STOK BARANG", "KONDISI"
             }
         ));
         jScrollPane1.setViewportView(tableInventaris);
