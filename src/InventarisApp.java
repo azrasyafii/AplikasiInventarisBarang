@@ -39,8 +39,8 @@ public class InventarisApp extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtIdBarang = new javax.swing.JTextField();
         txtNamaBarang = new javax.swing.JTextField();
-        txtJumlah = new javax.swing.JTextField();
-        txtHarga = new javax.swing.JTextField();
+        txtStok = new javax.swing.JTextField();
+        txtKondisi = new javax.swing.JTextField();
         btnTambah = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
@@ -76,10 +76,10 @@ public class InventarisApp extends javax.swing.JFrame {
         jLabel4.setText("NAMA BARANG");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("JUMLAH");
+        jLabel5.setText("STOK BARANG");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setText("HARGA");
+        jLabel6.setText("KONDISI");
 
         btnTambah.setBackground(new java.awt.Color(0, 255, 255));
         btnTambah.setText("TAMBAH");
@@ -178,8 +178,8 @@ public class InventarisApp extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtIdBarang, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
-                            .addComponent(txtJumlah, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtHarga, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtStok, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtKondisi, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNamaBarang, javax.swing.GroupLayout.Alignment.LEADING))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -208,11 +208,11 @@ public class InventarisApp extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtStok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtKondisi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTambah)
@@ -263,13 +263,13 @@ public class InventarisApp extends javax.swing.JFrame {
     model.addRow(new Object[]{
         txtIdBarang.getText(),
         txtNamaBarang.getText(),
-        txtJumlah.getText(),
-        txtHarga.getText()
+        txtStok.getText(),
+        txtKondisi.getText()
     });
     txtIdBarang.setText("");
     txtNamaBarang.setText("");
-    txtJumlah.setText("");
-    txtHarga.setText("");
+    txtStok.setText("");
+    txtKondisi.setText("");
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
@@ -278,8 +278,8 @@ public class InventarisApp extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
         model.setValueAt(txtIdBarang.getText(), selectedRow, 0);
         model.setValueAt(txtNamaBarang.getText(), selectedRow, 1);
-        model.setValueAt(txtJumlah.getText(), selectedRow, 2);
-        model.setValueAt(txtHarga.getText(), selectedRow, 3);
+        model.setValueAt(txtStok.getText(), selectedRow, 2);
+        model.setValueAt(txtKondisi.getText(), selectedRow, 3);
     } else {
         JOptionPane.showMessageDialog(this, "Pilih baris yang ingin diubah.");
     }
@@ -380,9 +380,9 @@ public class InventarisApp extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTable tableInventaris;
-    private javax.swing.JTextField txtHarga;
     private javax.swing.JTextField txtIdBarang;
-    private javax.swing.JTextField txtJumlah;
+    private javax.swing.JTextField txtKondisi;
     private javax.swing.JTextField txtNamaBarang;
+    private javax.swing.JTextField txtStok;
     // End of variables declaration//GEN-END:variables
 }
