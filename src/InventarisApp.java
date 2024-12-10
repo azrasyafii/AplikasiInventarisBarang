@@ -2,13 +2,17 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.io.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 
 
 
@@ -300,27 +304,62 @@ public class InventarisApp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
-         JFileChooser fileChooser = new JFileChooser();
+        // Membuka jendela pemilihan lokasi untuk menyimpan file PDF
+    JFileChooser fileChooser = new JFileChooser();
     fileChooser.setDialogTitle("Pilih Lokasi untuk Menyimpan File");
-    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV File (*.csv)", "csv"));
+    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("PDF File (*.pdf)", "pdf"));
 
     int userSelection = fileChooser.showSaveDialog(this);
     if (userSelection == JFileChooser.APPROVE_OPTION) {
+        // Mendapatkan file yang dipilih pengguna
         File fileToSave = fileChooser.getSelectedFile();
-        try (FileWriter writer = new FileWriter(fileToSave + ".csv")) {
+        try {
+            // Membuat dokumen PDF baru
+            Document document = new Document();
+            // Membuat writer untuk menulis dokumen ke file
+            PdfWriter.getInstance(document, new FileOutputStream(fileToSave + ".pdf"));
+
+            // Membuka dokumen untuk ditulis
+            document.open();
+
+            // Menambahkan judul
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Paragraph title = new Paragraph("Inventaris Barang", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            // Menambahkan jarak
+            document.add(new Paragraph("\n"));
+
+            // Membuat tabel dengan 4 kolom (ID Barang, Nama Barang, Stok Barang, Kondisi)
+            PdfPTable table = new PdfPTable(4);
+
+            // Menambahkan header tabel
+            table.addCell("ID BARANG");
+            table.addCell("NAMA BARANG");
+            table.addCell("STOK BARANG");
+            table.addCell("KONDISI");
+
+            // Mengisi tabel dengan data dari JTable
             DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
             for (int i = 0; i < model.getRowCount(); i++) {
-                for (int j = 0; j < model.getColumnCount(); j++) {
-                    writer.write(model.getValueAt(i, j).toString());
-                    if (j < model.getColumnCount() - 1) {
-                        writer.write(",");
-                    }
-                }
-                writer.write("\n");
+                table.addCell(model.getValueAt(i, 0).toString());  // ID Barang
+                table.addCell(model.getValueAt(i, 1).toString());  // Nama Barang
+                table.addCell(model.getValueAt(i, 2).toString());  // Stok Barang
+                table.addCell(model.getValueAt(i, 3).toString());  // Kondisi Barang
             }
-            JOptionPane.showMessageDialog(this, "Data berhasil diekspor!");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error saat menyimpan file: " + e.getMessage());
+
+            // Menambahkan tabel ke dalam dokumen PDF
+            document.add(table);
+
+            // Menutup dokumen
+            document.close();
+
+            // Menampilkan pesan sukses
+            JOptionPane.showMessageDialog(this, "Data berhasil diekspor ke PDF!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+        } catch (DocumentException | IOException ex) {
+            // Menampilkan pesan error jika terjadi masalah saat membuat PDF
+            JOptionPane.showMessageDialog(this, "Gagal membuat file PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     }//GEN-LAST:event_btnExportActionPerformed
