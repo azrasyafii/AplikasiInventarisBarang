@@ -4,7 +4,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.*;
+import java.io.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -296,31 +300,30 @@ public class InventarisApp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
-       try (FileWriter writer = new FileWriter("data_inventaris.txt")) {
-        DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            writer.write(model.getValueAt(i, 0) + "," +
-                         model.getValueAt(i, 1) + "," +
-                         model.getValueAt(i, 2) + "," +
-                         model.getValueAt(i, 3) + "\n");
-        }
-        JOptionPane.showMessageDialog(this, "Data berhasil diekspor.");
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Gagal mengekspor data: " + ex.getMessage());
+        JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Pilih Lokasi untuk Menyimpan File");
+
+    // Filter file format (opsional)
+    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text File (*.txt)", "txt"));
+    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("JSON File (*.json)", "json"));
+
+    int userSelection = fileChooser.showSaveDialog(this); // Dialog untuk menyimpan file
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+        File fileToSave = fileChooser.getSelectedFile();
+        JOptionPane.showMessageDialog(this, "File akan disimpan di: " + fileToSave.getAbsolutePath());
+        // Tambahkan logika untuk mengekspor file ke lokasi yang dipilih
     }
     }//GEN-LAST:event_btnExportActionPerformed
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
-        try (BufferedReader reader = new BufferedReader(new FileReader("data_inventaris.txt"))) {
-        DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] data = line.split(",");
-            model.addRow(data);
-        }
-        JOptionPane.showMessageDialog(this, "Data berhasil diimpor.");
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Gagal mengimpor data: " + ex.getMessage());
+        JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Pilih File untuk Diimpor");
+
+    int userSelection = fileChooser.showOpenDialog(this); // Dialog untuk membuka file
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+        File selectedFile = fileChooser.getSelectedFile();
+        JOptionPane.showMessageDialog(this, "File yang dipilih: " + selectedFile.getAbsolutePath());
+        // Tambahkan logika untuk membaca file yang diimpor
     }
     }//GEN-LAST:event_btnImportActionPerformed
 
