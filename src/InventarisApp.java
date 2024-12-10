@@ -300,30 +300,51 @@ public class InventarisApp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
+         JFileChooser fileChooser = new JFileChooser();
     fileChooser.setDialogTitle("Pilih Lokasi untuk Menyimpan File");
+    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV File (*.csv)", "csv"));
 
-    // Filter file format (opsional)
-    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text File (*.txt)", "txt"));
-    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("JSON File (*.json)", "json"));
-
-    int userSelection = fileChooser.showSaveDialog(this); // Dialog untuk menyimpan file
+    int userSelection = fileChooser.showSaveDialog(this);
     if (userSelection == JFileChooser.APPROVE_OPTION) {
         File fileToSave = fileChooser.getSelectedFile();
-        JOptionPane.showMessageDialog(this, "File akan disimpan di: " + fileToSave.getAbsolutePath());
-        // Tambahkan logika untuk mengekspor file ke lokasi yang dipilih
+        try (FileWriter writer = new FileWriter(fileToSave + ".csv")) {
+            DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    writer.write(model.getValueAt(i, j).toString());
+                    if (j < model.getColumnCount() - 1) {
+                        writer.write(",");
+                    }
+                }
+                writer.write("\n");
+            }
+            JOptionPane.showMessageDialog(this, "Data berhasil diekspor!");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saat menyimpan file: " + e.getMessage());
+        }
     }
     }//GEN-LAST:event_btnExportActionPerformed
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
+         JFileChooser fileChooser = new JFileChooser();
     fileChooser.setDialogTitle("Pilih File untuk Diimpor");
+    fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV File (*.csv)", "csv"));
 
-    int userSelection = fileChooser.showOpenDialog(this); // Dialog untuk membuka file
+    int userSelection = fileChooser.showOpenDialog(this);
     if (userSelection == JFileChooser.APPROVE_OPTION) {
         File selectedFile = fileChooser.getSelectedFile();
-        JOptionPane.showMessageDialog(this, "File yang dipilih: " + selectedFile.getAbsolutePath());
-        // Tambahkan logika untuk membaca file yang diimpor
+        try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+            DefaultTableModel model = (DefaultTableModel) tableInventaris.getModel();
+            model.setRowCount(0); // Hapus semua baris
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] rowData = line.split(",");
+                model.addRow(rowData);
+            }
+            JOptionPane.showMessageDialog(this, "Data berhasil diimpor!");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saat membaca file: " + e.getMessage());
+        }
     }
     }//GEN-LAST:event_btnImportActionPerformed
 
